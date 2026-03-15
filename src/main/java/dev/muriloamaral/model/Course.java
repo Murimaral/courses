@@ -16,6 +16,6 @@ public class Course extends PanacheEntity {
     @Size(min = 3)
     public String name;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     public List<Lesson> lessons = new ArrayList<>();
 }
