@@ -1,9 +1,8 @@
-package dev.muriloamaral.models;
+package dev.muriloamaral.model;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.CascadeType;
+
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -13,8 +12,8 @@ import java.util.List;
 @Entity
 public class Course extends PanacheEntity {
 
-    @NotBlank(message = "Nome é obrigatório")
-    @Size(min = 3, message = "Nome deve ter no mínimo 3 caracteres")
+    @NotBlank
+    @Size(min = 3)
     public String name;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
