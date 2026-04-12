@@ -15,6 +15,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import jakarta.annotation.security.RolesAllowed;
+
 @Path("/courses")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -27,6 +29,7 @@ public class CourseResource {
     UriInfo uriInfo;
 
     @POST
+    @RolesAllowed("ADMIN")
     public Response create(@Valid Course course) {
 
         Course created = service.create(course);
@@ -63,6 +66,7 @@ public class CourseResource {
     }
 
     @PUT
+    @RolesAllowed("ADMIN")
     @Path("/{id}")
     public Response update(@PathParam("id") Long id,
                            @Valid Course updated) {
@@ -77,6 +81,7 @@ public class CourseResource {
     }
 
     @DELETE
+    @RolesAllowed("ADMIN")
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
 
@@ -90,6 +95,7 @@ public class CourseResource {
     }
 
     @POST
+    @RolesAllowed("ADMIN")
     @Path("/{courseId}/lessons")
     public Response createLesson(@PathParam("courseId") Long courseId,
                                  @Valid Lesson lesson) {
