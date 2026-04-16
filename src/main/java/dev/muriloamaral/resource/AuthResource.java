@@ -5,6 +5,7 @@ import dev.muriloamaral.dto.AuthResponseDTO;
 import dev.muriloamaral.model.User;
 import dev.muriloamaral.service.UserService;
 import io.smallrye.jwt.build.Jwt;
+
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -13,6 +14,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.time.Duration;
@@ -32,6 +34,7 @@ public class AuthResource {
     @POST
     @Path("/token")
     public Response token(@Valid AuthRequestDTO request) {
+
         User user = userService.authenticate(request.email, request.password);
 
         if (user == null) {
