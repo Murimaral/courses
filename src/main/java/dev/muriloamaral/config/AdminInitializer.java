@@ -17,9 +17,7 @@ public class AdminInitializer {
     @PostConstruct
     @Transactional
     public void init() {
-
-        if (repository.findByEmail("admin") == null) {
-
+        if (repository.findByEmail("admin") == null && repository.findByName("admin") == null) {
             User admin = new User();
             admin.name = "admin";
             admin.email = "admin";

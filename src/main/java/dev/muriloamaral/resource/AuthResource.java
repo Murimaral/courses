@@ -5,8 +5,8 @@ import dev.muriloamaral.dto.AuthResponseDTO;
 import dev.muriloamaral.model.User;
 import dev.muriloamaral.service.UserService;
 import io.smallrye.jwt.build.Jwt;
-
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -31,23 +31,19 @@ public class AuthResource {
 
     @POST
     @Path("/token")
-    public Response token(AuthRequestDTO request) {
-        if (request == null || request.email == null || request.password == null) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+    public Response token(@Valid AuthRequestDTO request) {
+        User user = userService.authenticate(request.email, request.password);
 
-        User user = userService.findByEmail(request.email);
-
-        if (user == null || !user.password.equals(request.password)) {
+        if (user == null) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
-        String jwt = Jwt.issuer("courses-api")
+        String token = Jwt.issuer("courses-api")
                 .subject(user.email)
                 .groups(Set.of(user.role))
                 .expiresIn(Duration.ofSeconds(expiresIn))
                 .sign();
 
-        return Response.ok(new AuthResponseDTO(jwt, expiresIn)).build();
+        return Response.ok(new AuthResponseDTO(token, expiresIn)).build();
     }
 }
